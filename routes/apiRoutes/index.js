@@ -4,8 +4,8 @@ const passportService = require('./../../services/passport');
 const authMiddleware = require('./../../middlewares/authMiddleware');
 const formsRoutes = require("./formsRoute")
 router.route('/test')
-  .get((req, res) => {
-    res.send({success: true});
+  .get(authMiddleware.checkAuth, (req, res) => {
+    res.send({success: true, authenticated: true});
   });
 router.use('/auth', authRoutes);
 router.use('/forms', formsRoutes);
