@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const FormAnswerSchema = new Schema({
@@ -13,10 +13,11 @@ const FormAnswerSchema = new Schema({
   },
   form_creator: {
     type: String,
+  },
+  form_title: {
+    type: String
   }
 });
-
-
 
 const FormAnswer = mongoose.model("FormAnswer", FormAnswerSchema);
 
