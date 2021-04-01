@@ -23,10 +23,22 @@ module.exports = {
       res.status(500).json({ success: false, authenticated: true });
     }
   },
-  fetchForm: async (req, res) => {
+  fetchFormFill: async (req, res) => {
     try {
       const { form_id } = req.params;
       await db.Forms.findOne({ form_id: form_id }, (err, result) => {
+        if (err) throw err;
+        res.send({ success: true, data: result, authenticated: true });
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false, authenticated: true });
+    }
+  },
+  fetchFormEdit: async (req, res) => {
+    try {
+      const { form_id } = req.params;
+      await db.Forms.findOne({ form_id: form_id, form_creator: req.user }, (err, result) => {
         if (err) throw err;
         res.send({ success: true, data: result, authenticated: true });
       });
@@ -89,8 +101,9 @@ module.exports = {
   },
   filledForms: async (req, res) => {
     try {
-      await db.FormAnswer.find({ form_owner: req.user }, (err, result) => {
+      await db.FormAnswer.find({ form_creator: req.user, form_id: req.params.form_id }, (err, result) => {
         if (err) throw err;
+        console.log(result)
         res.json({ success: true, data: result, authenticated: true });
       });
     } catch (err) {

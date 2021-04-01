@@ -13,7 +13,7 @@ router
   .route("/get")
   .get(authMiddleware.checkAuth, formsController.fetchAllForms);
 
-router.route("/get/:form_id").get(formsController.fetchForm);
+router.route("/get/:form_id").get(formsController.fetchFormFill);
 
 router.route("/fill/:form_id").post(formsController.saveFormData);
 
@@ -22,11 +22,15 @@ router
   .post(authMiddleware.checkAuth, formsController.editForm);
 
 router
-  .route("/filled")
+  .route("/filled/:form_id")
   .get(authMiddleware.checkAuth, formsController.filledForms);
 
 router
   .route("/delete/:form_id")
   .get(authMiddleware.checkAuth, formsController.deleteForm);
+
+router
+  .route("/getedit/:form_id")
+  .get(authMiddleware.checkAuth, formsController.fetchFormEdit);
 
 module.exports = router;
