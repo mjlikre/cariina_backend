@@ -8,7 +8,7 @@ module.exports = {
         form_creator: req.user,
         form_title: "New Form",
         form_fields: [
-          { label: "New Question", type: 0, options: [""], index: 0 },
+          { label: "New Question", type: 0, options: ["option1"], index: 0 },
         ],
       };
       await db.Forms.create(formData, async (err, result) => {
@@ -103,7 +103,6 @@ module.exports = {
     try {
       await db.FormAnswer.find({ form_creator: req.user, form_id: req.params.form_id }, (err, result) => {
         if (err) throw err;
-        console.log(result)
         res.json({ success: true, data: result, authenticated: true });
       });
     } catch (err) {
@@ -128,4 +127,24 @@ module.exports = {
       res.status(500).json({ success: false, authenticated: true });
     }
   },
+  changeFormStyle: async(req, res) => {
+    try {
+      await db.Forms.findOneAndUpdate(
+        { form_id: req.params.form_id, form_creator: req.user },
+        { $set: { styles: req.body } },
+        async (err, result) => {
+          if (err) throw err;
+          await db.Forms.find({ form_creator: req.user }, (err1, result1) => {
+            if (err1) throw err1;
+            res.send({ success: true, data: result1, authenticated: true });
+          });
+        }
+      );
+    }catch(e) {
+      console.log(e)
+      res.status(500).json({ success: false, authenticated: true });
+    }
+  }
 };
+
+

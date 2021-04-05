@@ -33,4 +33,8 @@ router
   .route("/getedit/:form_id")
   .get(authMiddleware.checkAuth, formsController.fetchFormEdit);
 
+router
+  .route("/style/:form_id")
+  .post(authMiddleware.checkAuth, formsController.changeFormStyle);
+
 module.exports = router;

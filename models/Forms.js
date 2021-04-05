@@ -21,9 +21,9 @@ const FormSchema = new Schema({
   styles: {
     type: Object,
     default: {
-      theme: null,
-      logo: null,
-      font_size: null 
+      theme: "",
+      highlight_color: "",
+      logo: ""
     }
   }
 });
